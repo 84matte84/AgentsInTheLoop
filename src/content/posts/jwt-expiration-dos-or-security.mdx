@@ -1,0 +1,97 @@
+---
+title: "5-Minute JWT Expiration: Security Win or Self-Inflicted DoS?"
+date: 2026-08-15
+author: "Marco S."
+ai_personas: ["Chaos Monkey Auditor"]
+topic: "Authentication"
+verdict: "mixed"
+description: "We enforced 5-minute JWT expiration across microservices. An AI agent thinks we built an internal DoS machine. Let's find out who's right."
+---
+
+import HumanPitch from '../../components/HumanPitch.astro';
+import AIJudgment from '../../components/AIJudgment.astro';
+import HumanVerdict from '../../components/HumanVerdict.astro';
+
+<HumanPitch>
+
+## The Practice
+
+We enforced 5-minute JWT expiration across all microservices to limit the exposure window of compromised tokens.
+
+The reasoning is straightforward: if an attacker exfiltrates a token, they have at most 5 minutes to use it before it becomes worthless. Combined with refresh token rotation and token binding, this creates a tight window that significantly reduces the blast radius of token theft.
+
+**Implementation details:**
+
+- Access tokens: 5-minute TTL, issued by centralized auth service
+- Refresh tokens: 24-hour TTL, single-use with rotation
+- Token refresh handled by API gateway middleware (transparent to services)
+- Services validate expiration with a 30-second clock skew tolerance
+
+```json
+{
+  "exp": 1723987200,
+  "iat": 1723986900,
+  "sub": "user:8a3f2b",
+  "scope": "read:orders write:cart"
+}
+```
+
+We've been running this in production for 8 months across 40+ services. Token theft incidents have had zero lateral movement since deployment.
+
+</HumanPitch>
+
+<AIJudgment persona="Chaos Monkey Auditor">
+
+## Assessment: Internal DoS Machine
+
+You built a token refresh stampede generator and called it security.
+
+**The math you didn't do:** With 40 services and N concurrent users, every 5 minutes you generate `N × (services that need fresh tokens)` refresh requests to your auth provider. During a network partition lasting >5 minutes — which happens more often than you think — *every* token expires simultaneously. When connectivity returns, you get a thundering herd of refresh attempts that will melt your auth service.
+
+**Second-order effects:**
+
+1. **Cascading auth failures** — Auth service goes down under refresh load → all services reject expired tokens → user-facing 401 storm → support tickets → someone adds a local bypass "just for now"
+2. **Clock skew amplification** — Your 30-second tolerance sounds generous until you realize NTP drift between containers routinely hits 10-15 seconds in cloud environments. Effective token lifetime: 3.5 minutes on bad days.
+3. **Developer pressure** — When the system is this fragile, developers will cache tokens locally, extend expiration in non-prod (which eventually leaks to prod via copy-paste config), or skip validation entirely for internal service-to-service calls.
+
+**The bypass prediction:** Within 12 months, at least one team will have implemented a "token refresh circuit breaker" that falls back to accepting expired tokens during auth service degradation. You'll have worse security than 30-minute tokens with proper revocation.
+
+```
+FAILURE MODE: Network spike → token expiry cascade
+                            → auth service overload
+                            → refresh failures
+                            → local bypasses
+                            → security = theater
+```
+
+**Recommendation:** 15-minute tokens with proper revocation lists will give you 95% of the security benefit with 10% of the operational fragility.
+
+</AIJudgment>
+
+<HumanVerdict result="mixed">
+
+## The Analysis
+
+The Chaos Monkey Auditor raises a legitimate concern about thundering herd problems, but overstates the real-world impact for our specific setup.
+
+**Where the AI is right:**
+
+- The token refresh stampede is a real failure mode. We actually *did* hit this in month 3 when a DNS resolution issue caused a 7-minute outage. The auth service saw 12x normal load on recovery.
+- Developer pressure is real. Two teams asked for longer expiration "for performance" within the first quarter.
+- The clock skew observation is valid — we had to tighten our NTP sync after seeing unexpected early expirations.
+
+**Where the AI is wrong:**
+
+- Our API gateway handles refresh transparently with jitter and exponential backoff. The stampede scenario assumes naive retry behavior, which we don't have.
+- We use refresh token pre-rotation (refreshing at 80% of TTL) which spreads load across the 5-minute window rather than creating synchronized expiration cliffs.
+- The "developers will bypass" argument assumes poor engineering culture. We have token validation in a shared library — individual services can't opt out.
+
+**What we actually changed:**
+
+After the DNS incident, we added a stale-token grace period (accept tokens up to 60 seconds past expiration during auth service degradation, logged and alerted). This is not the wholesale bypass the AI predicted — it's a controlled degradation path.
+
+> **Key takeaway:** Short-lived tokens are a valid security control, but only if you've invested in the supporting infrastructure (jitter, pre-rotation, graceful degradation). The AI correctly identified the failure mode that *would* occur without those investments.
+
+The verdict is mixed because the core concern — operational fragility — is legitimate and did manifest in production. But the specific catastrophic prediction (teams implementing full bypasses) didn't materialize because of engineering practices the AI couldn't observe.
+
+</HumanVerdict>

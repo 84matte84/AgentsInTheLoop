@@ -1,0 +1,22 @@
+---
+export interface Props {
+  persona: string;
+}
+
+const { persona } = Astro.props;
+---
+
+<div class="section-machine fade-in">
+  <div class="mb-6 flex items-center gap-3">
+    <span class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-machine-accent">
+      Judgment
+    </span>
+    <div class="h-px flex-1 bg-machine-border/50"></div>
+    <span class="font-mono text-[10px] text-machine-accent/60 uppercase tracking-widest">
+      {persona}
+    </span>
+  </div>
+  <div class="prose prose-lg prose-invert max-w-none font-mono text-[0.9rem] leading-[1.9] prose-p:text-text-secondary/90">
+    <slot />
+  </div>
+</div>

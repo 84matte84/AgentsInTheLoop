@@ -1,0 +1,39 @@
+---
+export interface Props {
+  result: 'won' | 'lost' | 'mixed';
+}
+
+const { result } = Astro.props;
+
+const resultConfig = {
+  won: {
+    label: 'Human Wins',
+    class: 'text-verdict-won border-verdict-won/30',
+  },
+  lost: {
+    label: 'AI Wins',
+    class: 'text-verdict-lost border-verdict-lost/30',
+  },
+  mixed: {
+    label: 'Split Decision',
+    class: 'text-verdict-mixed border-verdict-mixed/30',
+  },
+};
+
+const config = resultConfig[result];
+---
+
+<div class="section-verdict fade-in">
+  <div class="mb-6 flex items-center gap-3">
+    <span class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-text-muted">
+      Verdict
+    </span>
+    <div class="h-px flex-1 bg-surface-border/50"></div>
+    <span class={`text-[11px] font-heading font-semibold uppercase tracking-[0.2em] ${config.class}`}>
+      {config.label}
+    </span>
+  </div>
+  <div class="prose prose-lg prose-invert max-w-none prose-p:text-text-secondary prose-p:leading-[1.8]">
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="About">
+  <Header />
+  <main class="mx-auto w-full max-w-3xl px-6 md:px-8">
+    <section class="py-16 md:py-24">
+      <div class="accent-line mb-8"></div>
+      <h1 class="font-display text-display-md text-text-primary italic">The Format</h1>
+
+      <div class="mt-12 space-y-8 text-text-secondary leading-[1.8]">
+        <p class="text-lg">
+          Every security team has blind spots. The question is whether you find them
+          before someone else does.
+        </p>
+
+        <p>
+          <strong class="text-text-primary">Agents in the Loop</strong> inverts the standard AI-content playbook.
+          Instead of machines generating content for humans to review, humans present their security engineering
+          and submit it to adversarial AI personas for judgment.
+        </p>
+
+        <div class="divider my-12"></div>
+
+        <h2 class="font-heading text-xl font-semibold text-text-primary">How it works</h2>
+
+        <div class="space-y-6 mt-6">
+          <div class="border-l-2 border-human-accent pl-6">
+            <h3 class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-human-accent mb-2">01 — The Pitch</h3>
+            <p class="text-sm text-text-muted">A security engineer presents a best practice, architecture decision, or mitigation strategy. No softballs.</p>
+          </div>
+
+          <div class="border-l-2 border-machine-accent pl-6">
+            <h3 class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-machine-accent mb-2">02 — The Judgment</h3>
+            <p class="text-sm text-text-muted">AI agent personas attack the proposal without mercy. They find security theatre, predict operational failures, and hallucinate catastrophic edge cases.</p>
+          </div>
+
+          <div class="border-l-2 border-surface-border pl-6">
+            <h3 class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-text-muted mb-2">03 — The Verdict</h3>
+            <p class="text-sm text-text-muted">The human responds. Did the AI find a real blind spot? Or did it have to invent bullshit to attack us — proving the design is solid?</p>
+          </div>
+        </div>
+
+        <div class="divider my-12"></div>
+
+        <h2 class="font-heading text-xl font-semibold text-text-primary">The win condition</h2>
+
+        <p>
+          If the AI finds something real, we learn and adapt publicly.
+          If the AI has to hallucinate absurd failure modes to land a hit, our security holds.
+          Either way, the reader gets something useful.
+        </p>
+
+        <p class="text-sm text-text-muted/60 mt-8">
+          Built by security engineers who got tired of writing blog posts nobody challenges.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
