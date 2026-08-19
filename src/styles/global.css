@@ -122,11 +122,13 @@
     animation: glitch-red 1.8s infinite linear alternate-reverse;
   }
 
-  .hallucinate:hover::before {
+  .hallucinate:hover::before,
+  .hallucinate.glitching::before {
     animation: glitch-cyan-intense 0.3s infinite linear alternate-reverse;
   }
 
-  .hallucinate:hover::after {
+  .hallucinate:hover::after,
+  .hallucinate.glitching::after {
     animation: glitch-red-intense 0.25s infinite linear alternate-reverse;
   }
 }
