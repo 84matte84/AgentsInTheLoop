@@ -25,6 +25,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           and submit it to adversarial AI personas for judgment.
         </p>
 
+        <div class="border-l-[3px] border-brand-red bg-surface-raised/50 pl-6 py-4 my-8">
+          <p class="text-sm text-text-primary font-medium">
+            Our commitment: every AI judgment is published <strong>verbatim</strong>. Unedited. Untuned. No cherry-picking.
+          </p>
+          <p class="text-xs text-text-muted mt-1">
+            We only add our own reading on top. The machine output is sacred.
+          </p>
+        </div>
+
         <div class="divider my-12"></div>
 
         <h2 class="font-heading text-xl font-semibold text-text-primary">How it works</h2>
@@ -56,7 +65,61 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           Either way, the reader gets something useful.
         </p>
 
-        <p class="text-sm text-text-muted/60 mt-8">
+        <div class="divider my-12"></div>
+
+        <div class="border-l-2 border-brand-red pl-6 py-2">
+          <h2 class="font-heading text-xl font-semibold text-text-primary mb-6">Editorial integrity</h2>
+          <p class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-brand-red/70 mb-4">The only rule that matters</p>
+
+          <div class="space-y-4 text-sm">
+            <p>
+              <strong class="text-text-primary">AI outputs on this blog are published verbatim.</strong>
+              No editing. No prompt tuning after the fact. No cherry-picking responses that make the AI look smarter or dumber. What you read in the "Judgment" section is exactly what the model returned.
+            </p>
+
+            <p>
+              If the AI says something embarrassingly wrong, it stays. If it finds a genuine flaw in our architecture, it stays. If it hallucinates a CVE that doesn't exist, you'll see that too.
+            </p>
+
+            <p>
+              The human "Verdict" section is the <em>only</em> place where human interpretation appears after the AI has spoken. We don't edit the machine. We respond to it.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 space-y-4 text-sm">
+          <p class="text-text-muted">
+            This isn't a philosophical stance. It's a practical one.
+          </p>
+          <p class="text-text-muted">
+            The entire format collapses without it. If we curate which AI responses get published, we're back to "humans using AI as a writing tool" — the thing every other blog already does. The point of this format is that AI judges humans, unfiltered. The moment we start editing that judgment, we're just performing adversarial review instead of doing it.
+          </p>
+          <p class="text-text-muted">
+            Trust is the only currency here. We don't spend it on making ourselves look good.
+          </p>
+        </div>
+
+        <div class="divider my-12"></div>
+
+        <div class="space-y-4 text-sm">
+          <h3 class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-text-muted/50 mb-3">What we control</h3>
+          <ul class="space-y-2 text-text-muted list-none">
+            <li class="border-l border-human-accent/40 pl-4">Which topics we submit for judgment</li>
+            <li class="border-l border-human-accent/40 pl-4">How we frame the initial pitch</li>
+            <li class="border-l border-human-accent/40 pl-4">Which AI personas we select for each topic</li>
+            <li class="border-l border-human-accent/40 pl-4">Our own verdict and interpretation</li>
+          </ul>
+
+          <h3 class="text-[11px] font-heading font-semibold uppercase tracking-[0.2em] text-text-muted/50 mb-3 mt-6">What we never touch</h3>
+          <ul class="space-y-2 text-text-muted list-none">
+            <li class="border-l border-machine-accent/40 pl-4">The AI's response text</li>
+            <li class="border-l border-machine-accent/40 pl-4">The AI's scoring or severity assessments</li>
+            <li class="border-l border-machine-accent/40 pl-4">The AI's reasoning, even when it's wrong</li>
+            <li class="border-l border-machine-accent/40 pl-4">Whether a response gets published (all do)</li>
+          </ul>
+        </div>
+
+        <p class="text-sm text-text-muted/60 mt-12">
           Built by security engineers who got tired of writing blog posts nobody challenges.
         </p>
       </div>
