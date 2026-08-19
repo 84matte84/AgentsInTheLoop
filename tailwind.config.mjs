@@ -6,10 +6,10 @@ export default {
     extend: {
       colors: {
         surface: {
-          DEFAULT: '#0a0a0b',
-          raised: '#141416',
-          overlay: '#1a1a1e',
-          border: '#252529',
+          DEFAULT: '#151719',
+          raised: '#1c1e21',
+          overlay: '#232528',
+          border: '#2e3135',
         },
         brand: {
           red: '#e11d48',
@@ -17,12 +17,12 @@ export default {
           ember: '#dc2626',
         },
         human: {
-          bg: '#141210',
+          bg: '#1a1815',
           border: '#2e2820',
           accent: '#d97706',
         },
         machine: {
-          bg: '#0c0a10',
+          bg: '#131518',
           border: '#2d1a1a',
           accent: '#e11d48',
           glow: 'rgba(225, 29, 72, 0.06)',
