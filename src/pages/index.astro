@@ -96,7 +96,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <script>
     const hero = document.getElementById('hero-section');
     const target = document.querySelector('.hallucinate');
-    let timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     if (hero && target) {
       hero.addEventListener('mousemove', () => {
         target.classList.add('glitching');
