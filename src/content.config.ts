@@ -5,7 +5,6 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.date(),
-    author: z.string(),
     ai_personas: z.array(z.string()),
     topic: z.string(),
     verdict: z.enum(['won', 'lost', 'mixed']),
