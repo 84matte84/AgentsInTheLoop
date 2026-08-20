@@ -13,4 +13,9 @@ export default defineConfig({
       wrap: true,
     },
   },
+  vite: {
+    server: {
+      allowedHosts: 'all',
+    },
+  },
 });
